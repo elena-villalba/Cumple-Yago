@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu reto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .contenedor {
+            margin-top: 20%;
+        }
+        .contador {
+            font-size: 32px;
+            color: gray;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .frase {
+            font-size: 24px;
+            color: #333;
+            transition: opacity 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <div id="contador" class="contador"></div>
+        <div id="frase" class="frase"></div>
+    </div>
+    <script>
+        // Mensaje oculto codificado en Base64
+        const mensajeCodificado = "VElOVEFJTlZJU0lCTEVQQVNBTEFIT0pBQ0VSQ0FET1VOQVZFTEE=";
+
+        // Decodificar el mensaje (Base64 a texto)
+        function decodificarMensaje(base64) {
+            return atob(base64).split(""); // Decodificar y convertir a arreglo
+        }
+
+        const mensaje = decodificarMensaje(mensajeCodificado);
+
+        const frases = [
+            "los limites solo se encuentran en Tu mente",           // T - 1 
+            "sigue adelante y Nunca mires atrás",                  // N - 3
+            "siempre lleva tu Idea más allá",                      // I - 2
+            "inspírate y ve más Allá de lo común",                 // A - 5 
+            "lo mejor siempre llegará si pErsistes",               // E - 30
+            "¿todavÍa no lo has logrado resolver?",                 // I - 7
+            "a veces, la mejor Respuesta es el silencio",          // R - 6
+            "busca nuevas respuestas, pero Valora las preguntas",  // V - 9
+            "nunca subestimes la fuerza de un Trabajo bien hecho", // T - 4 
+            "¿en serio sIgues mirando?",                            // I - 12
+            "Pues Seguimos con mÁs frAses",                         // P, S, A, A - 16,18,19, 32 
+            "Hoy quiero Juntar palabras que se conviertan en un buen recuerdo", //H, J - 20, 22
+            "los LimitEs Como los miEdos A menudo son solo una iLusion", // L - 14,15, 24,25, 28, 31 
+            "A veces, las respuestas están frente a tus ojos",     // A - 17
+            "Buscando Siempre lo inesperado,",                      // B,S - 11, 13
+            "uno puede descubrIr secretos que solo estáN al alcance de los que se atreven a mirAr más allá", // I, , A - 10, 8, 23
+            "¿Cuánto tardarás en resolverlo?",                      // C - 27
+            "Ojalá pronto lo descifres",                           // O - 21
+            "Con paciencia todo se Revela",                       // R - 26
+            "Vive el reto, disfruta el proceso",                   // V - 29        
+        ];
+
+        const posiciones = [
+            [1], [3], [2], [5], [30], [7], [6], [9], [4], [12], 
+            [16, 18, 19, 32], [20, 22], [14, 15, 24, 25, 28, 31], 
+            [17], [11, 13], [10, 8, 23], [27], [21], [26], [29]
+        ]; // Múltiples posiciones asociadas a algunas frases
+
+        let index = 0;
+
+        function mostrarFrase() {
+            const fraseActual = frases[index];
+            const numeros = posiciones[index]; // Números asociados a la frase
+            const numerosTexto = numeros.join(", "); // Convertir los números a texto separados por comas
+
+            // Añadir letras en mayúscula para cada número
+            let fraseModificada = fraseActual;
+            numeros.forEach(posicion => {
+                const letra = mensaje[posicion - 1];
+                fraseModificada = fraseModificada.replace(
+                    letra,
+                    `<span style="text-transform: uppercase;">${letra}</span>`
+                );
+            });
+
+            // Mostrar números y frase
+            document.getElementById("contador").textContent = numerosTexto; // Números
+            document.getElementById("frase").innerHTML = fraseModificada; // Frase
+
+            // Avanzar al siguiente índice, reiniciar si llega al final
+            index = (index + 1) % frases.length;
+
+            setTimeout(mostrarFrase, 3000); // Cambia cada 2 segundos
+        }
+
+        mostrarFrase();
+    </script>
+</body>
+</html>
